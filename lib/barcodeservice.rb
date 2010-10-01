@@ -1,0 +1,1 @@
+require 'barcode_service'
