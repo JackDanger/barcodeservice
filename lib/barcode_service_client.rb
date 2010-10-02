@@ -14,7 +14,7 @@ module BarcodeService
 
     def render code
       start do |http|
-        http.post('/', "code=#{code}").read_body
+        http.get("/?code=#{code}").read_body
       end
     end
 
