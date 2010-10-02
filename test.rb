@@ -4,7 +4,7 @@ require 'rubygems'
 require 'test/unit'
 require 'shoulda'
 require 'rack/test'
-require 'lib/barcode_service_server'
+require 'lib/barcode_service'
 
 class BarcodeServiceTest < Test::Unit::TestCase
   include Rack::Test::Methods
