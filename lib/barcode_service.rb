@@ -28,7 +28,7 @@ get '/' do
   %Q{
     <body style='line-height: 1.8em; font-family: Archer, Museo, Helvetica, Georgia; font-size 25px; text-align: center; padding-top: 20%;'>
       Get a barcode image by crafting a url at this domain.
-      <pre style='font-family: Iconsolata, monospace;background-color:#EEE'><img src="http://#{request.host}/12345632323.jpg?type=isbn</pre>
+      <pre style='font-family: Iconsolata, monospace;background-color:#EEE'>&lt;img src="http://#{request.host}/12345632323.jpg?type=isbn&gt;</pre>
       <br />
       Also, try <a href='http://github.com/JackDanger/barcodeservice'>the official Ruby client</a>
     </body
