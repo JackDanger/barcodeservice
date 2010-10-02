@@ -1,6 +1,6 @@
-# PDF Service
+# Barcode Service
 
-This is a simple Rack server that accepts web requests posting HTML to be converted into PDF. Uses the wkhtmltopdf binaries.
+This is a simple Sinatra server that turns simple web requests into formatted barcode images.
 
 
 ## Instant installation and deploy
@@ -12,16 +12,12 @@ This is a simple Rack server that accepts web requests posting HTML to be conver
 
 ## HowTo
 
-Once the server is running you need to post a string of html to it and that string will
-be rendered in WebKit and returned to you as a PDF document.
+You can embed barcodes into your web pages simply by using an <img> tag
 
-    require 'barcodeservice'
-    client = BarcodeService::Client.new 'http://my-barcodeservice-app.heroku.com'
-    pdf_content = client.render '<html></html>'
+    <img src="http://my-barcode-server.heroku.com/999999999999999.png?type=ISBN" />
+    <img src="http://my-barcode-server.heroku.com/ABCDEF1232333.png?type=code93" />
+    <img src="http://my-barcode-server.heroku.com/ABC123.png?type=code93&width=50&height=30&x=4&y=200&scale=2" />
 
-Or, straight from a terminal:
-
-    curl -X POST http://my-barcodeservice-app.heroku.com/ -d '<html></html>' > file.pdf
 
 Patches welcome, forks celebrated.
 
