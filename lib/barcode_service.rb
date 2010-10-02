@@ -28,9 +28,9 @@ get '/' do
   %Q{
     <body style='line-height: 1.8em; font-family: Archer, Museo, Helvetica, Georgia; font-size 25px; text-align: center; padding-top: 20%;'>
       Get a barcode image by crafting a url at this domain.
-      <pre style='font-family: Iconsolata, monospace;background-color:#EEE'>&lt;img src="http://#{request.host}/12345632323.jpg?type=isbn&gt;</pre>
+      <pre style='font-family: Iconsolata, monospace;background-color:#EEE'>&lt;img src="http://#{request.host}/12345632323.png" /&gt;</pre>
       <br />
-      Also, try <a href='http://github.com/JackDanger/barcodeservice'>the official Ruby client</a>
+      <img src="http://#{request.host}/12345632323.png" />
     </body
 }
 end
@@ -39,18 +39,19 @@ end
 
 def default_options
   {
-    :type     => '93',
-    :output   => 'png',
-    :width    => 100,
-    :height   => 50,
-    :x        => 0,
-    :y        => 0,
-    :margin   => 0,
-    :scale    => 0
+    'type'     => 'any',
+    'output'   => 'png',
+    'width'    => 100,
+    'height'   => 50,
+    'x'        => 0,
+    'y'        => 0,
+    'margin'   => 0,
+    'scale'    => 0
   }
 end
 
 TYPES = {
+  'any'     => 'BARCODE_ANY',
   'ean'     => 'BARCODE_EAN',
 	'upc'     => 'BARCODE_UPC',
 	'isbn'    => 'BARCODE_ISBN',
@@ -73,7 +74,13 @@ module Converter
     require 'stringio'
 
     barcode = barcode_create(code)
-    barcode_encode barcode, BARCODE_NO_CHECKSUM | const_get(TYPES[options[:type]])
+    barcode.width   = options['width'].to_i
+    barcode.height  = options['height'].to_i
+    barcode.xoff    = options['x'].to_i
+    barcode.yoff    = options['y'].to_i
+    barcode.scalef  = options['scale'].to_i
+    barcode_encode barcode, BARCODE_NO_CHECKSUM | const_get(TYPES[options['type']])
+
     file = Tempfile.new('barcode')
     File.open(file.path, 'w') do |f|
       barcode_print(barcode, f, BARCODE_OUT_EPS)
