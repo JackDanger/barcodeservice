@@ -48,7 +48,7 @@ class BarcodeServiceTest < Test::Unit::TestCase
     end
   end
 
-  TYPES.each do |type|
+  TYPES.each do |type,_|
     context "on GET with code and #{type} barcode" do
       setup {
         get "/1234322.png?type=#{type}"
