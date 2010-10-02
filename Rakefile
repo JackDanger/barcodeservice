@@ -8,6 +8,8 @@ begin
     gem.homepage = "http://github.com/JackDanger/barcodeservice"
     gem.authors = ["Jack Danger Canty"]
     gem.add_development_dependency "shoulda", ">= 0"
+    gem.add_dependency "sinatra"
+    gem.add_dependency "gbarcode"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
