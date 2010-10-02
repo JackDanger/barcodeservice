@@ -18,10 +18,10 @@ get '/' do
 }
 end
 
-post '*' do
+get '*' do
   begin
     content_type 'application/pdf'
-    convert request.env['rack.input'].read
+    barcode request.querystring
   rescue => error
     puts error.inspect
     status 400
@@ -31,36 +31,34 @@ end
 
 ## HELPERS
 
-def wkhtmltopdf
-  executable = `which wkhtmltopdf`.chomp
+DEFAULTS = {
+  :type     => '93',
+  :output   => 'eps',
+  :width    => 100,
+  :height   => 50,
+  :x        => 0,
+  :y        => 0,
+  :margin   => 0,
+  :scale    => 0
+}
 
-  if '' == executable.to_s && RUBY_PLATFORM =~ /x86_64-linux/
-    executable = File.join File.dirname(__FILE__), '..', 'vendor', 'wkhtmltopdf-amd64-0.10.0_beta5-static-amd64'
-  end
-  executable
-end
+TYPES = {
+  'ean'     => 'BARCODE_EAN',
+	'upc'     => 'BARCODE_UPC',
+	'isbn'    => 'BARCODE_ISBN',
+	'128b'    => 'BARCODE_128B',
+	'128C'    => 'BARCODE_128C',
+	'128'     => 'BARCODE_128',
+	'128raw'  => 'BARCODE_128RAW',
+	'39'      => 'BARCODE_39',
+	'I25'     => 'BARCODE_I25',
+	'cbr'     => 'BARCODE_CBR',
+	'msi'     => 'BARCODE_MSI',
+	'pls'     => 'BARCODE_PLS',
+	'93'      => 'BARCODE_93'
+}
 
-def command
-  [ wkhtmltopdf,
-    "--page-size letter",
-    "--margin-right 0",
-    "--margin-top 0",
-    "--margin-bottom 0",
-    "--disable-smart-shrinking",
-    "--encoding UTF-8",
-    "--margin-left 0",
-    "--quiet",
-    "-",
-    "-"
-  ]
-end
-
-def convert html
-    pdf = Kernel.open('|-', "w+")
-    exec command.join(' ') if pdf.nil?
-    pdf.puts html
-    pdf.close_write
-    result = pdf.gets nil
-    pdf.close_read
-    result
+def barcode(options)
+  options = DEFAULTS.merge(options)
+  
 end
