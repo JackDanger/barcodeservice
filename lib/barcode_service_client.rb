@@ -12,9 +12,9 @@ module BarcodeService
       @server = URI.parse server
     end
 
-    def render html
+    def render code
       start do |http|
-        http.post('/', html).read_body
+        http.post('/', "code=#{code}").read_body
       end
     end
 
