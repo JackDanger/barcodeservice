@@ -37,6 +37,10 @@ class BarcodeServiceTest < Test::Unit::TestCase
       should "return ok" do
         assert last_response.ok?
       end
+      should "cache for a year" do
+        assert_equal 'public, max-age=31536000',
+                     last_response.headers['Cache-Control']
+      end
       should "return #{format} content-type" do
         assert_equal "image/#{format}", last_response.headers['Content-Type']
       end

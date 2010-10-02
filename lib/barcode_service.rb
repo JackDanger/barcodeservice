@@ -11,17 +11,18 @@ require 'gbarcode'
 
 
 get '/:code.:extension' do
-  # begin
+  begin
     options = request.env['rack.request.query_hash']
     options = default_options.merge(options)
 
     content_type "image/#{params[:extension]}"
+    headers['Cache-Control'] = "public, max-age=#{3600*24*365}"
 
     Converter.encode params[:code], params[:extension], options
-  # rescue => error
-  #   puts error.inspect
-  #   status 400
-  # end
+  rescue => error
+    puts error.inspect
+    status 400
+  end
 end
 
 get '/' do
