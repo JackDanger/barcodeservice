@@ -16,7 +16,7 @@ You can embed barcodes into your web pages simply by using an <img> tag
 
     <img src="http://my-barcode-server.heroku.com/999999999999999.png?type=ISBN" />
     <img src="http://my-barcode-server.heroku.com/ABCDEF1232333.png?type=code93" />
-    <img src="http://my-barcode-server.heroku.com/ABC123.png?type=code93&width=50&height=30&x=4&y=200&scale=2" />
+    <img src="http://my-barcode-server.heroku.com/ABC123.png?width=50&height=30&x=4&y=200&scale=1" />
 
 
 Patches welcome, forks celebrated.
