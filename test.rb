@@ -28,7 +28,8 @@ class BarcodeServiceTest < Test::Unit::TestCase
   {:eps => /%!PS-Adobe-2.0 EPSF-1.2/,
    :gif => /^GIF89/,
    :png => /^.?PNG/,
-   :jpeg => //}.each do |format, fileheader|
+   :jpeg => //
+  }.each do |format, fileheader|
     context "on GET with code and #{format} type" do
       setup {
         get "/1234322.#{format}"
