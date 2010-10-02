@@ -79,18 +79,20 @@ module Converter
       barcode_print(barcode, f, BARCODE_OUT_EPS)
     end
 
-    cmd = case format
+    output = case format
     when 'eps'
-      return file.read
+      file.read
     when "png"
-      "convert eps:#{file.path} png:- "
+      %x{convert eps:#{file.path} png:-}
     when "jpg", "jpeg"
-      "convert eps:#{file.path} jpg:-"
+      %x{convert eps:#{file.path} jpg:-}
     when "gif"
-      "convert eps:#{file.path} gif:-"
+      %x{convert eps:#{file.path} gif:-}
     end
 
-    `#{cmd}`
+    file.unlink
+
+    output
   end
 end
 

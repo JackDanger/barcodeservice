@@ -36,13 +36,27 @@ class BarcodeServiceTest < Test::Unit::TestCase
       should "return ok" do
         assert last_response.ok?
       end
-      should "return png content-type" do
+      should "return #{format} content-type" do
         assert_equal "image/#{format}", last_response.headers['Content-Type']
       end
       should "return the #{format} document" do
         body = last_response.body
         body.force_encoding('binary') if body.respond_to?(:force_encoding)
         assert body =~ fileheader
+      end
+    end
+  end
+
+  TYPES.each do |type|
+    context "on GET with code and #{type} barcode" do
+      setup {
+        get "/1234322.png?type=#{type}"
+      }
+      should "return ok" do
+        assert last_response.ok?
+      end
+      should "return png content-type" do
+        assert_equal "image/png", last_response.headers['Content-Type']
       end
     end
   end
