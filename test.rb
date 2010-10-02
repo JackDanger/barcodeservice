@@ -4,7 +4,7 @@ require 'rubygems'
 require 'test/unit'
 require 'shoulda'
 require 'rack/test'
-require 'barcode_service_server'
+require 'lib/barcode_service_server'
 
 class BarcodeServiceTest < Test::Unit::TestCase
   include Rack::Test::Methods
@@ -21,24 +21,29 @@ class BarcodeServiceTest < Test::Unit::TestCase
       assert last_response.ok?
     end
     should "have some kind of welcome" do
-      assert last_response.body =~ /curl/
+      assert last_response.body =~ /<img/
     end
   end
 
-  context "on POST to /" do
-    setup {
-      post '/', '<html></html>'
-    }
-    should "return ok" do
-      assert last_response.ok?
-    end
-    should "return pdf content-type" do
-      assert last_response.ok?
-    end
-    should "return the PDF document" do
-      body = last_response.body
-      body.force_encoding('binary') if body.respond_to?(:force_encoding)
-      assert body =~ /^%PDF-1\.4/
+  {:eps => /%!PS-Adobe-2.0 EPSF-1.2/,
+   :gif => /^GIF89/,
+   :png => /^.?PNG/,
+   :jpeg => //}.each do |format, fileheader|
+    context "on GET with code and #{format} type" do
+      setup {
+        get "/1234322.#{format}"
+      }
+      should "return ok" do
+        assert last_response.ok?
+      end
+      should "return png content-type" do
+        assert_equal "image/#{format}", last_response.headers['Content-Type']
+      end
+      should "return the #{format} document" do
+        body = last_response.body
+        body.force_encoding('binary') if body.respond_to?(:force_encoding)
+        assert body =~ fileheader
+      end
     end
   end
 end
