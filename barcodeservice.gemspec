@@ -5,18 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{barcodeservice}
-  s.version = "1.2.1"
+  s.version = "1.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jack Danger Canty"]
-  s.date = %q{2010-10-02}
+  s.date = %q{2011-02-07}
   s.description = %q{Run your own barcode image generator for free on Heroku.com}
   s.email = %q{gitcommit@6brand.com}
   s.extra_rdoc_files = [
     "README.markdown"
   ]
   s.files = [
-    ".gems",
+    "Gemfile",
      "README.markdown",
      "Rakefile",
      "VERSION",
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "config.ru",
      "lib/barcode_service.rb",
      "lib/barcodeservice.rb",
+     "pkg/barcodeservice-1.2.1.gem",
      "test.rb"
   ]
   s.homepage = %q{http://github.com/JackDanger/barcodeservice}
